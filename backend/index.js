@@ -1,10 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
-import { PORT } from "./config.js";
-import { mongoDBURL } from "../.env";
+import { PORT, mongoDBURL } from "./config.js";
 import { Book } from "./models/bookModel.js";
 
 const app = express();
+
+// Middleware to parse JSON request bodies
+app.use(express.json());
 
 app.get('/', (request, response) => {
     console.log(request);
