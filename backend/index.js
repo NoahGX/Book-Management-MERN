@@ -6,3 +6,8 @@ const app = express();
 app.listen(PORT, () => {
     console.log(`App is listening to PORT: ${PORT}`);
 });
+
+app.get('/', (request, response) => {
+    console.log(request);
+    return response.status(200).send('Welcome');
+})
