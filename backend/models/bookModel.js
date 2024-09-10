@@ -20,4 +20,4 @@ const BookSchema = new mongoose.Schema(
     }
 );
 
-export const Book = mongoose.model('Book1', BookSchema);
+export const Book = mongoose.model('Book', BookSchema);
