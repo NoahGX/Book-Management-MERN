@@ -1,22 +1,9 @@
 import express from "express";
-import mongoose from "mongoose";
-import { PORT, mongoDBURL } from "./config.js";
-import { Book } from "./models/bookModel.js";
-import booksRoute from "./routes/booksRoute.js";
+import { Book } from "../models/bookModel.js";
 
-const app = express();
+const router = express.Router();
 
-// Middleware to parse JSON request bodies
-app.use(express.json());
-
-app.get('/', (request, response) => {
-    console.log(request);
-    return response.status(200).send('Welcome');
-})
-
-app.use('/books', booksRoute);
-
-app.post('/books', async (request, response) => {
+router.post('/', async (request, response) => {
     try {
         if (
             !request.body.title || 
@@ -41,7 +28,7 @@ app.post('/books', async (request, response) => {
 });
 
 // Route for GET ALL Books from database
-app.get('/books', async (request, response) => {
+router.get('/', async (request, response) => {
     try {
         const books = await Book.find({});
         return response.status(200).json({
@@ -55,7 +42,7 @@ app.get('/books', async (request, response) => {
 });
 
 // Route for GET ONE Books from database by ID
-app.get('/books/:id', async (request, response) => {
+router.get('/:id', async (request, response) => {
     try {
         const { id } = request.params;
         const book = await Book.findById(id);
@@ -66,7 +53,7 @@ app.get('/books/:id', async (request, response) => {
     }
 });
 
-app.put('/books/:id', async (request, response) => {
+router.put('/:id', async (request, response) => {
     try {
         if (
             !request.body.title || 
@@ -89,7 +76,7 @@ app.put('/books/:id', async (request, response) => {
     }
 });
 
-app.delete('/books/:id', async (request, response) => {
+router.delete('/:id', async (request, response) => {
     try {
         const { id } = request.params;
         const result = await Book.findByIdAndDelete(id);
@@ -103,12 +90,4 @@ app.delete('/books/:id', async (request, response) => {
     }
 });
 
-mongoose.connect(mongoDBURL)
-    .then(() => {
-        console.log('App connected to database');
-        app.listen(PORT, () => {
-            console.log(`App is listening to PORT: ${PORT}`);
-        });
-    }).catch((error) => {
-    console.log(error);
-});
+export default router;
