@@ -21,7 +21,7 @@ app.post('/books', async (request, response) => {
             !request.body.publishYear
         ) {
             return response.status(400).send({
-                message: 'Send all required fields...'
+                message: 'Send all required fields.'
             });
         }
         const newBook = {
@@ -71,13 +71,13 @@ app.put('/books/:id', async (request, response) => {
             !request.body.publishYear
         ) {
             return response.status(400).send({
-                message: 'Send all required fields...'
+                message: 'Send all required fields.'
             });
         }
         const { id } = request.params;
         const result = await Book.findByIdAndUpdate(id, request.body);
         if (!result) {
-            return response.status(404).json({ message: 'Book not found...' });
+            return response.status(404).json({ message: 'Book not found.' });
         }
         return response.status(200).send({ message: 'Book updated successfully.' });
     } catch (error) {
