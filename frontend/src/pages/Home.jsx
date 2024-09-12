@@ -12,6 +12,7 @@ const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState('table');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -23,9 +24,11 @@ const Home = () => {
       })
       .catch((error) => {
         console.log(error);
+        setError('Failed to fetch books. Please try again later.');
         setLoading(false);
       });
   }, []);
+  
 
   return (
     <div className='p-4'>
