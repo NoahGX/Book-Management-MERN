@@ -61,7 +61,7 @@ router.put('/:id', async (request, response) => {
             !request.body.publishYear
         ) {
             return response.status(400).send({
-                message: 'Send all required fields.'
+                message: 'Type all required fields.'
             });
         }
         const { id } = request.params;
