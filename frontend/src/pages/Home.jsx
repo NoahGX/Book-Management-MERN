@@ -15,19 +15,28 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let isMounted = true;
     setLoading(true);
     axios
       .get('http://localhost:3000/books')
       .then((response) => {
-        setBooks(response.data.data);
-        setLoading(false);
+        if (isMounted) {
+          setBooks(response.data.data);
+          setLoading(false);
+        }
       })
       .catch((error) => {
-        console.log(error);
-        setError('Failed to fetch books. Please try again later.');
-        setLoading(false);
+        if (isMounted) {
+          setError('Failed to fetch books.');
+          setLoading(false);
+        }
       });
+  
+    return () => {
+      isMounted = false;  // Clean up when the component unmounts
+    };
   }, []);
+  
   
 
   return (
