@@ -8,6 +8,15 @@ import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import BooksTable from '../components/home/BooksTable';
 import BooksCard from '../components/home/BooksCard';
 
+const ToggleButton = ({ onClick, label, active }) => (
+  <button
+    className={`px-4 py-1 rounded-lg ${active ? 'bg-sky-600' : 'bg-sky-300 hover:bg-sky-600'}`}
+    onClick={onClick}
+  >
+    {label}
+  </button>
+);
+
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -36,18 +45,21 @@ const Home = () => {
       isMounted = false;  // Clean up when the component unmounts
     };
   }, []);
-  
-  
 
   return (
     <div className='p-4'>
-      <div className='flex justify-center items-center gap-x-4'>
-        <button className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
-          onClick={() => setShowType('table')}>Table</button>
-        <button className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
-          onClick={() => setShowType('card')}>Card</button>
+      <div className="flex justify-center items-center gap-x-4">
+        <ToggleButton 
+          onClick={() => setShowType('table')} 
+          label="Table" 
+          active={showType === 'table'} 
+        />
+        <ToggleButton 
+          onClick={() => setShowType('card')} 
+          label="Card" 
+          active={showType === 'card'} 
+        />
       </div>
-
       <div className='flex justify-between items-center'>
         <h1 className='text-3xl my-8'>Books List</h1>
         <Link to='/books/create'>
