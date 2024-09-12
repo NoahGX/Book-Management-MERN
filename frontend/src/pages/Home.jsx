@@ -46,13 +46,15 @@ const Home = () => {
         </Link>
       </div>
       
-      {loading ? (
+      {error ? (
+        <div className="text-red-500">{error}</div>
+      ) : loading ? (
         <Spinner />
       ) : showType === 'table' ? (
         <BooksTable books={books} />
       ) : (
-        <BooksCard books={books} />
-      )}
+      <BooksCard books={books} />
+    )}
     </div>
   );
 };
