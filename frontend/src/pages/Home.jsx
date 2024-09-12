@@ -9,6 +9,8 @@ import BooksTable from '../components/home/BooksTable';
 import BooksCard from '../components/home/BooksCard';
 import React, { memo } from 'react';
 
+const API_URL = 'http://localhost:3000';
+
 const BooksTable = memo(({ books }) => {
   // Component logic
 });
@@ -36,7 +38,7 @@ const Home = () => {
     let isMounted = true;
     setLoading(true);
     axios
-      .get('http://localhost:3000/books')
+      .get('${API_URL}/books')
       .then((response) => {
         if (isMounted) {
           setBooks(response.data.data);
