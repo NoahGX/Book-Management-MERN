@@ -7,6 +7,15 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import BooksTable from '../components/home/BooksTable';
 import BooksCard from '../components/home/BooksCard';
+import React, { memo } from 'react';
+
+const BooksTable = memo(({ books }) => {
+  // Component logic
+});
+
+const BooksCard = memo(({ books }) => {
+  // Component logic
+});
 
 const ToggleButton = ({ onClick, label, active }) => (
   <button
