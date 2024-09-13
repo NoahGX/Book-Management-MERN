@@ -59,7 +59,7 @@ const DeleteBook = () => {
 
   return (
     <div className='p-4'>
-      {/* Render BackButton to allow the user to navigate back to the previous page */}
+      {/* BackButton component allows user to navigate back to the previous page */}
       <BackButton/>
       
       {/* Heading for the delete confirmation page */}
@@ -70,6 +70,7 @@ const DeleteBook = () => {
 
       {/* Confirmation UI: Contains the confirmation text and delete button */}
       <div className='flex flex-col items-center border-2 border-sky-400 rounded-xl w-[600px] p-8 mx-auto'>
+        
         {/* Confirmation message asking the user if they're sure about deleting the book */}
         <h3 className='text-2xl'>Are You Sure?</h3>
 
