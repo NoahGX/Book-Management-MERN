@@ -5,6 +5,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+
 const CreateBook = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -28,7 +30,7 @@ const CreateBook = () => {
     const data = { title, author, publishYear };
     setLoading(true);
     axios
-      .post('http://localhost:3000/books', data)
+      .post('${API_URL}/books', data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Created Successfully.', { variant: 'success' });
