@@ -71,7 +71,7 @@ const DeleteBook = () => {
       {/* Confirmation UI: Contains the confirmation text and delete button */}
       <div className='flex flex-col items-center border-2 border-sky-400 rounded-xl w-[600px] p-8 mx-auto'>
         {/* Confirmation message asking the user if they're sure about deleting the book */}
-        <h3 className='text-2xl'>Are You Sure?</h3>
+        <h3 className='text-2xl'>Book Will Be Deleted</h3>
         {/* Delete button, triggers the handleDeleteBook function on click */}
         <button
           className='p-4 bg-red-600 text-white m-8 w-full'
