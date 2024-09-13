@@ -33,7 +33,7 @@ This project is a simple Book Management System built using `Node.js` with `Expr
    - Create a `.env` file in the root of the backend project and add the following:
      ```
      PORT=5000
-     mongoDB_URL=<Your_MongoDB_URL>
+     mongoDB_URL=mongodb+srv://<db_username>:<db_password>@bookstore-mern.qycsf.mongodb.net/?retryWrites=true&w=majority&appName=Bookstore-MERN
      ```
 
    Replace `<Your_MongoDB_URL>` with your MongoDB connection string, username, and password.
