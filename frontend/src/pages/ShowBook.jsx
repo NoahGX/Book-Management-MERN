@@ -8,6 +8,7 @@ const ShowBook = () => {
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
+  const [error, setError] = useState(null); // Add an error state
 
   useEffect(() => {
     setLoading(true);
@@ -19,9 +20,10 @@ const ShowBook = () => {
       })
       .catch((error) => {
         console.log(error);
+        setError('An error occurred while fetching the book details.'); // Set error message
         setLoading(false);
       });
-  }, []);
+  }, []);  
 
   return (
     <div className='p-4'>
