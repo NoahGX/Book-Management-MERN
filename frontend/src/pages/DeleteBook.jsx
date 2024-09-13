@@ -12,19 +12,24 @@ const DeleteBook = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDeleteBook = () => {
+    const confirmation = window.confirm("Are you sure you want to delete this book?"); 
+    if (!confirmation) return;
+  
     setLoading(true);
-    axios.delete(`http://localhost:3000/books/${id}`)
+    axios
+      .delete(`http://localhost:3000/books/${id}`)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Deleted Successfully.', { variant: 'success' });
         navigate('/');
-      }).catch((error) => {
+      })
+      .catch((error) => {
         setLoading(false);
         const errorMessage = error.response?.data?.message || 'An error occurred while deleting the book.';
         enqueueSnackbar(errorMessage, { variant: 'error' });
         console.log(error);
-      });      
-  };
+      });
+  };  
   
   return (
     <div className='p-4'>
