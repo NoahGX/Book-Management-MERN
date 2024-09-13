@@ -83,7 +83,7 @@ This project is a simple Book Management System built using `Node.js` with `Expr
 ## Output
 - **Create/Edit Book**: After successfully creating or editing a book, a success message is shown, and the user is redirected to the homepage.
 - **Delete Book**: A confirmation is required before deleting a book. If successful, a success message is displayed, and the user is redirected to the homepage.
-- **View Book**: Displays the book's details including title, author, publish year, creation time, and last update time.
+- **View Book**: Displays book details including title, author, publish year, creation time, and last update time.
 
 ## Notes
 - **API Endpoints**:
