@@ -7,7 +7,7 @@ import BooksTable from '../components/home/BooksTable';
 import BooksCard from '../components/home/BooksCard';
 
 // Environment variable for API URL (fallback to localhost if not set)
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+const API_URL = 'http://localhost:3000';
 
 // Reusable ToggleButton component for switching between table and card views
 // Props: onClick (callback), label (button text), active (boolean to set active state), and loading (to disable button during loading)

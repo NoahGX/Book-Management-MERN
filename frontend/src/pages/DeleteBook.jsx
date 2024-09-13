@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'; // useNavigate allows
 import { useSnackbar } from 'notistack'; // useSnackbar hook from notistack for displaying notifications (success/error messages)
 
 // Environment variable for API URL (with fallback to localhost during development)
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+const API_URL = 'http://localhost:3000';
 
 const DeleteBook = () => {
   // State to track the loading status. Initially false (not loading), true when deletion process is in progress.
