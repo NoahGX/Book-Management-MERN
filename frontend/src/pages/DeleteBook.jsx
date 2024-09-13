@@ -1,63 +1,72 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requests
-import { useSnackbar } from 'notistack'; // useSnackbar hook from notistack for showing notification messages
-import { useNavigate, useParams } from 'react-router-dom'; // useNavigate allows navigation, useParams fetches route parameters
-import BackButton from '../components/BackButton'; // Import the BackButton component to navigate to the previous page
-import Spinner from '../components/Spinner'; // Import Spinner component to show a loading indicator
+// Import axios for making HTTP requests
+import axios from 'axios';
+// useSnackbar hook from notistack for showing notification messages
+import { useSnackbar } from 'notistack';
+// useNavigate allows navigation, useParams fetches route parameters
+import { useNavigate, useParams } from 'react-router-dom';
+// Import the BackButton component to navigate to the previous page
+import BackButton from '../components/BackButton';
+// Import Spinner component to show a loading indicator
+import Spinner from '../components/Spinner';
 
-// Environment variable for API URL (with fallback to localhost during development)
+// Define API URL from environment variables or localhost
 const API_URL = 'http://localhost:3000';
 
 const DeleteBook = () => {
-  // State to track the loading status. Initially false (not loading), true when deletion process is in progress.
+  // State to track the loading status.
+  // Initially false (not loading), true when deletion process is in progress
   const [loading, setLoading] = useState(false);
-  
-  // Hook to navigate programmatically. Used to redirect the user after successful deletion.
+  // Hook to navigate programmatically, redirects the user after successful deletion
   const navigate = useNavigate();
-  
-  // Destructure the `id` parameter from the URL using useParams. This ID corresponds to the book being deleted.
+  // Destructure the `id` parameter, ID corresponds to the book being deleted
   const { id } = useParams();
-  
-  // Destructure enqueueSnackbar from useSnackbar to display feedback messages to the user.
+  // Destructure enqueueSnackbar from useSnackbar to display feedback messages
   const { enqueueSnackbar } = useSnackbar();
 
   // Function that handles the deletion of the book
   const handleDeleteBook = () => {
-    // Confirmation dialog to avoid accidental deletion of the book.
+    // Confirmation dialog to avoid accidental deletion of the book
+    // If the user cancels, exit the function without proceeding with deletion
     const confirmation = window.confirm("Are you sure you want to delete this book?");
-    if (!confirmation) return; // If the user cancels, exit the function without proceeding with deletion.
+    if (!confirmation) return;
 
-    // Set loading state to true to show the spinner and disable UI interactions while the request is being processed.
+    // Set loading state to true
+    // This will show spinner and disable UI interactions while request is processed
     setLoading(true);
 
-    // Send DELETE request to the server to delete the book with the given ID.
-    axios
-      .delete(`${API_URL}/books/${id}`) // Dynamically inject the book ID into the API URL
+    // Send DELETE request to the server to delete the book with the given ID
+    axios.delete(`${API_URL}/books/${id}`)
       .then(() => {
         // Once the deletion is successful:
-        setLoading(false); // Stop the loading spinner
-        enqueueSnackbar('Book Deleted Successfully.', { variant: 'success' }); // Show success notification using Snackbar
-        navigate('/'); // Redirect the user to the home page or book list after successful deletion
-      })
-      .catch((error) => {
+        // Stop the loading spinner
+        setLoading(false);
+        // Show success notification
+        enqueueSnackbar('Book Deleted Successfully.', { variant: 'success' });
+        navigate('/');  // Redirect the user to the home page
+      }).catch((error) => {
         // If an error occurs during the request:
-        setLoading(false); // Stop the loading spinner
-        const errorMessage = error.response?.data?.message || 'An error occurred while deleting the book.'; // Use specific error message if available, otherwise fallback to a generic one
-        enqueueSnackbar(errorMessage, { variant: 'error' }); // Display an error notification using Snackbar
-        console.log(error); // Log the error details to the console for debugging
+        // Stop the loading spinner
+        setLoading(false);
+        // Use specific or custom error message
+        const errorMessage = error.response?.data?.message || 'An error occurred while deleting the book.';
+        // Display an error notification
+        enqueueSnackbar(errorMessage, { variant: 'error' });
+        // Log the error details to the console for debugging
+        console.log(error);
       });
   };
 
   return (
     <div className='p-4'>
       {/* Render BackButton to allow the user to navigate back to the previous page */}
-      <BackButton />
+      <BackButton/>
       
       {/* Heading for the delete confirmation page */}
       <h1 className='text-3xl my-4'>Delete Book</h1>
       
       {/* Conditional rendering: Show spinner while the deletion is in progress */}
-      {loading ? <Spinner /> : null} 
+      {loading ? <Spinner/> : null} 
 
       {/* Confirmation UI: Contains the confirmation text and delete button */}
       <div className='flex flex-col items-center border-2 border-sky-400 rounded-xl w-[600px] p-8 mx-auto'>
@@ -65,12 +74,13 @@ const DeleteBook = () => {
         <h3 className='text-2xl'>Are You Sure?</h3>
 
         {/* Delete button, triggers the handleDeleteBook function on click */}
+        {/* Disable button while process is ongoing to prevent multiple requests */}
         <button
           className='p-4 bg-red-600 text-white m-8 w-full'
           onClick={handleDeleteBook}
-          disabled={loading} // Disable the button while the deletion process is ongoing to prevent multiple requests
+          disabled={loading}
         >
-          {loading ? 'Deleting...' : 'Yes, Delete'} {/* Show "Deleting..." while the book is being deleted, otherwise show "Yes, Delete" */}
+          {loading ? 'Deleting...' : 'Yes, Delete'}
         </button>
       </div>
     </div>

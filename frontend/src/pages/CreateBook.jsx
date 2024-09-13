@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import axios from 'axios';  // Import axios for making HTTP requests
-import { useNavigate } from 'react-router-dom';  // useNavigate hook from react-router-dom to programmatically navigate
-import { useSnackbar } from 'notistack';  // useSnackbar hook from notistack for showing notification messages
-import BackButton from '../components/BackButton';  // Import the BackButton component to navigate to the previous page
-import Spinner from '../components/Spinner';  // Import Spinner component to show a loading indicator
+// Import axios for making HTTP requests
+import axios from 'axios';
+// useNavigate hook from react-router-dom to programmatically navigate
+import { useNavigate } from 'react-router-dom';
+// useSnackbar hook from notistack for showing notification messages
+import { useSnackbar } from 'notistack';
+// Import the BackButton component to navigate to the previous page
+import BackButton from '../components/BackButton';
+// Import Spinner component to show a loading indicator
+import Spinner from '../components/Spinner';
 
 // Define API URL from environment variables or localhost
 const API_URL = 'http://localhost:3000';
@@ -11,7 +16,7 @@ const API_URL = 'http://localhost:3000';
 // Reusable InputField component for form fields
 const InputField = ({ label, value, onChange, type = 'text' }) => (
   <div className='my-4'>
-    <label className='text-xl mr-4 text-gray-500'>{label}</label> {/* Display the label */}
+    <label className='text-xl mr-4 text-gray-500'>{label}</label>
     <input
       type={type}  // Input type (e.g., 'text', 'number')
       value={value}  // Bind the input value to the corresponding state variable
@@ -22,13 +27,18 @@ const InputField = ({ label, value, onChange, type = 'text' }) => (
 );
 
 const CreateBook = () => {
-  // State variables for form fields (title, author, and publishYear)
-  const [title, setTitle] = useState('');  // State for book title
-  const [author, setAuthor] = useState('');  // State for book author
-  const [publishYear, setPublishYear] = useState('');  // State for publish year
-  const [loading, setLoading] = useState(false);  // State to manage loading state
-  const navigate = useNavigate();  // useNavigate hook to programmatically navigate to another page
-  const { enqueueSnackbar } = useSnackbar();  // useSnackbar hook to show notification messages
+  // State variable for book title
+  const [title, setTitle] = useState('');
+  // State variabel for book author
+  const [author, setAuthor] = useState('');
+  // State for publish year
+  const [publishYear, setPublishYear] = useState('');
+  // State to manage loading state
+  const [loading, setLoading] = useState(false);
+  // useNavigate hook to programmatically navigate to another page
+  const navigate = useNavigate();
+  // useSnackbar hook to show notification messages
+  const { enqueueSnackbar } = useSnackbar();
 
   // Function to handle saving the book
   const handleSaveBook = async () => {
@@ -53,15 +63,15 @@ const CreateBook = () => {
     try {
       // Make POST request to create the new book
       await axios.post(`${API_URL}/books`, data);
-      enqueueSnackbar('Book Created Successfully.', { variant: 'success' });  // Show success notification
+      enqueueSnackbar('Book Created Successfully.', { variant: 'success' });
       setTitle('');  // Reset form fields after success
       setAuthor('');
       setPublishYear('');
-      navigate('/');  // Navigate to the home page after successful book creation
+      navigate('/');  // Navigate to the home page
     } catch (error) {
       // Error handling: Display error message if the request fails
       const errorMessage = error.response?.data?.message || 'Error creating the book';
-      enqueueSnackbar(errorMessage, { variant: 'error' });  // Show error notification
+      enqueueSnackbar(errorMessage, { variant: 'error' });
       console.log(error);  // Log error to the console for debugging
     } finally {
       setLoading(false);  // Set loading to false to hide the spinner
@@ -71,26 +81,26 @@ const CreateBook = () => {
   return (
     <div className='p-4'>
       {/* BackButton component allows user to navigate back */}
-      <BackButton />
+      <BackButton/>
 
       {/* Page title */}
       <h1 className='text-3xl my-4'>Create Book</h1>
 
       {/* Show spinner when loading */}
-      {loading && <Spinner />}
+      {loading && <Spinner/>}
 
       {/* Form container with styling using Tailwind CSS */}
       <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
         {/* Input fields for book title, author, and publish year using reusable InputField component */}
-        <InputField label="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <InputField label="Author" value={author} onChange={(e) => setAuthor(e.target.value)} />
-        <InputField label="Publish Year" value={publishYear} onChange={(e) => setPublishYear(e.target.value)} type="number" />
+        <InputField label="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
+        <InputField label="Author" value={author} onChange={(e) => setAuthor(e.target.value)}/>
+        <InputField label="Publish Year" value={publishYear} onChange={(e) => setPublishYear(e.target.value)} type="number"/>
 
-        {/* Save button, disabled when loading */}
+        {/* Save button, disabled when loading to prevent multiple requests */}
         <button
           className='p-2 bg-sky-300 m-8'
           onClick={handleSaveBook}
-          disabled={loading}  // Disable button while loading
+          disabled={loading}
         >
           {loading ? 'Saving...' : 'Save'}
         </button>
