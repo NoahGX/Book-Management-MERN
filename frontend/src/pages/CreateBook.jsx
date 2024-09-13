@@ -36,7 +36,8 @@ const CreateBook = () => {
       })
       .catch((error) => {
         setLoading(false);
-        enqueueSnackbar('Error creating the book', { variant: 'error' });
+        const errorMessage = error.response?.data?.message || 'Error creating the book';
+        enqueueSnackbar(errorMessage, { variant: 'error' });
         console.log(error);
       });
   };  
