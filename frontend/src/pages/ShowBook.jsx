@@ -5,7 +5,7 @@ import BackButton from '../components/BackButton'; // BackButton component to na
 import Spinner from '../components/Spinner'; // Spinner component to indicate loading state
 
 // Use environment variable for the API URL, with fallback to localhost for development
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+const API_URL = 'http://localhost:3000';
 
 // Reusable component for displaying a label-value pair for book details
 // Props: label (field name), value (field value)
