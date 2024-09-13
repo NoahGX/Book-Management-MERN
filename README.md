@@ -71,7 +71,7 @@ This project is a simple Book Management System built using `Node.js` with `Expr
 - **RESTful API**: The backend server exposes RESTful API endpoints for frontend interaction.
 
 ## Input
-- **Create/Edit/Delete a Book**:
+- **Create/Edit a Book**:
   - **Title**: A required string representing the title of the book.
   - **Author**: A required string representing the author's name.
   - **Publish Year**: A required number representing the year the book was published.
