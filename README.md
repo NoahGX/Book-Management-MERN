@@ -30,21 +30,14 @@ This project is a simple Book Management System built using `Node.js` with `Expr
    - If using MongoDB Atlas, create a cluster and get the connection string.
 
 4. **Set up environment variables**:
-   - Create a `.env` file in the root of the backend project and add the following:
+   - Create a `.env` file in the root of the backend project and add your MongoDB connection, username, and password:
      ```
-     PORT=5000
      mongoDB_URL=mongodb+srv://<db_username>:<db_password>@bookstore-mern.qycsf.mongodb.net/?retryWrites=true&w=majority&appName=Bookstore-MERN
      ```
 
-   Replace `<Your_MongoDB_URL>` with your MongoDB connection string, username, and password.
-   For example:
-   ```
-   mongoDB_URL=...
-   ```
-
 5. **Start the backend server**:
    ```bash
-   npm start
+   npm run dev
    ```
 
    The backend server will be running at `http://localhost:5000`.
@@ -66,7 +59,7 @@ This project is a simple Book Management System built using `Node.js` with `Expr
 
 3. **Start the frontend application**:
    ```bash
-   npm start
+   npm run dev
    ```
 
    The frontend will now be running at `http://localhost:3000`, and it will interact with the backend at `http://localhost:5000`.
