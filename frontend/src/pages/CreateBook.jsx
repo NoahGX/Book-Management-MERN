@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'; // useNavigate hook from react-r
 import { useSnackbar } from 'notistack'; // useSnackbar hook from notistack for showing snackbars (notification messages)
 
 // Define API URL from environment variables or fallback to localhost
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+const API_URL = 'http://localhost:3000';
 
 // Reusable InputField component for form fields
 // Props: label (field label), value (input value), onChange (function to update value), and type (input type, default is 'text')
