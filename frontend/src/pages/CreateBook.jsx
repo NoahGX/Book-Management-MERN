@@ -16,6 +16,9 @@ const CreateBook = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
+    if (!window.confirm('Are you sure you want to save this book?')) {
+      return;
+    }
     // Basic validation
     if (!title || !author || !publishYear) {
       enqueueSnackbar('All fields are required', { variant: 'warning' });
@@ -29,14 +32,12 @@ const CreateBook = () => {
   
     const data = { title, author, publishYear };
     setLoading(true);
-    axios
-      .post('${API_URL}/books', data)
+    axios.post('${API_URL}/books', data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Created Successfully.', { variant: 'success' });
         navigate('/');
-      })
-      .catch((error) => {
+      }).catch((error) => {
         setLoading(false);
         const errorMessage = error.response?.data?.message || 'Error creating the book';
         enqueueSnackbar(errorMessage, { variant: 'error' });
