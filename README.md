@@ -6,7 +6,7 @@ This project is a simple Book Management System built using `Node.js` with `Expr
 ## Features
 - **Create Book**: Users can add new books.
 - **Edit Book**: Users can update any details of listed books.
-- **View B**: Users can view the details of any book stored in the database.
+- **View Book**: Users can view the details of any book stored in the database.
 - **Delete Book**: Users can delete a book with system confirmation before proceeding.
 - **Real-Time Notifications**: Uses **notistack** for showing success, error, or warning messages.
 - **Loading States**: Displays a loading spinner when data is being fetched or saved.
@@ -30,7 +30,7 @@ This project is a simple Book Management System built using `Node.js` with `Expr
    - If using MongoDB Atlas, create a cluster and get the connection string.
 
 4. **Set up environment variables**:
-   - Create a `.env` file in the root of the backend project and add your MongoDB connection, username, and password:
+   - Create a `.env` file in the root of the backend project and add your MongoDB connection:
      ```
      mongoDB_URL=mongodb+srv://<db_username>:<db_password>@bookstore-mern.qycsf.mongodb.net/?retryWrites=true&w=majority&appName=Bookstore-MERN
      ```
