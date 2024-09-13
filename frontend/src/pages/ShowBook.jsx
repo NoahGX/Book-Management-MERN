@@ -1,75 +1,108 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { useParams } from 'react-router-dom'; // useParams allows us to retrieve dynamic URL parameters like book id
-import BackButton from '../components/BackButton'; // Import the BackButton component to navigate to the previous page
-import Spinner from '../components/Spinner'; // Import Spinner component to show a loading indicator
+// Import axios for making HTTP requests
+import axios from 'axios';
+// useParams allows us to retrieve dynamic URL parameters like book id
+import { useParams } from 'react-router-dom';
+// Import the BackButton component to navigate to the previous page
+import BackButton from '../components/BackButton';
+// Import Spinner component to show a loading indicator
+import Spinner from '../components/Spinner';
 
-// Use environment variable for the API URL, with fallback to localhost for development
+// Define API URL from environment variables or localhost
 const API_URL = 'http://localhost:3000';
 
-// Reusable component for displaying a label-value pair for book details
-// Props: label (field name), value (field value)
+// Custom hook for fetching book details
+const useBookDetails = (id) => {
+  // State variable for storing the book data
+  const [book, setBook] = useState({});
+  // Loading state to show spinner while fetching data
+  const [loading, setLoading] = useState(false);
+  // Error state to handle and display error messages
+  const [error, setError] = useState(null);
+
+  // useEffect hook to fetch book details when component mounts or when 'id' changes
+  useEffect(() => {
+    // Function to fetch book details
+    const fetchBook = async () => {
+      // Start loading before making the API request
+      setLoading(true);
+      try {
+        // Make GET request to fetch book details using 'id'
+        // Set the book data on successful response
+        const response = await axios.get(`${API_URL}/books/${id}`);
+        setBook(response.data);
+      } catch (error) {
+        // Set error message if request fails
+        setError('Failed to load book details. Please try again later.');
+        // Log error for debugging
+        console.log(error);
+      } finally {
+        // Stop loading spinner after the request completes
+        setLoading(false);
+      }
+    };
+    
+    // Call the fetchBook function to load book data on component mount
+    // Dependency array contains `id`, meaning the effect will run again if `id` changes
+    fetchBook();
+  }, [id]);
+
+  // Return book details, loading, and error states
+  return { book, loading, error, setError };
+};
+
+// Component for displaying individual book detail with a label and value
 const BookDetail = ({ label, value }) => (
-  <div className='my-4'> {/* Adds margin to space out the details */}
-    <span className='text-xl mr-4 text-gray-500' aria-label={label}>{label}</span> {/* Display label for the book detail */}
-    <span>{value}</span> {/* Display the actual value of the book detail */}
+  <div className='my-4'>
+    <span className='text-xl mr-4 text-gray-500'>{label}</span>
+    <span>{value}</span>
   </div>
 );
 
 const ShowBook = () => {
-  const [book, setBook] = useState({}); // State to hold the book details (initially an empty object)
-  const [loading, setLoading] = useState(false); // State to track the loading status (false initially, true when fetching data)
-  const [error, setError] = useState(null); // State to store any error message in case the API call fails
-  const { id } = useParams(); // Extract 'id' from the URL parameters using useParams hook. 'id' refers to the book's unique identifier
+  // Extract the 'id' parameter from the URL using useParams
+  const { id } = useParams(); 
+  // Use the custom hook to get the book details, loading state, and error state
+  const { book, loading, error, setError } = useBookDetails(id);
+  // Memoize the formatted creation and update dates to avoid recalculating on every render
+  const formattedCreatedAt = useMemo(() => new Date(book.createdAt).toString(), [book.createdAt]);
+  const formattedUpdatedAt = useMemo(() => new Date(book.updatedAt).toString(), [book.updatedAt]);
 
-  // Memoize the formatted creation date to prevent unnecessary recalculations
-  const createdAtFormatted = useMemo(() => new Date(book.createdAt).toString(), [book.createdAt]);
-  // Memoize the formatted update date to prevent unnecessary recalculations
-  const updatedAtFormatted = useMemo(() => new Date(book.updatedAt).toString(), [book.updatedAt]);
-
-  // useEffect to fetch the book details when the component mounts (or when 'id' changes)
-  useEffect(() => {
-    const fetchBook = async () => {
-      setLoading(true); // Set loading state to true to show the spinner
-      try {
-        // Make a GET request to fetch the book details from the API
-        const response = await axios.get(`${API_URL}/books/${id}`); // Dynamic URL with the book id from useParams
-        setBook(response.data); // Set the fetched book details in the book state
-      } catch (error) {
-        // If an error occurs, log it and set an error message
-        console.log(error); 
-        setError('An error occurred while fetching the book details.'); // Set a user-friendly error message
-      } finally {
-        setLoading(false); // Whether success or error, set loading to false to stop showing the spinner
-      }
-    };
-
-    fetchBook(); // Call the async function to fetch book data
-  }, [id]); // useEffect dependency on 'id' ensures it runs whenever the 'id' changes
+  // Function to retry fetching book details in case of an error
+  const handleRetry = () => {
+    setError(null);
+  };
 
   return (
     <div className='p-4'>
-      {/* Render BackButton to allow the user to navigate back to the previous page */}
+      {/* BackButton component allows user to navigate back to the previous page */}
       <BackButton />
-      {/* Page title for showing the book details */}
+
+      {/* Page title */}
       <h1 className='text-3xl my-4'>Show Book</h1>
 
-      {/* Conditional rendering based on loading and error state */}
-      {loading ? (
-        // If the component is in loading state, show the spinner
-        <Spinner />
-      ) : error ? (
-        // If there's an error, show the error message in red
-        <div className="text-red-500">{error}</div>
+      {/* Conditional rendering: Show error message or loading spinner */}
+      {error ? (
+        <div className='text-red-500'>
+          {error}
+          {/* Retry button allows user to try fetching the book details again */}
+          <button className='text-blue-500 underline' onClick={handleRetry}>
+            Retry
+          </button>
+        </div>
+      ) : loading ? (
+        // Show spinner while data is being fetched
+        <Spinner/>
       ) : (
-        // If no error and not loading, display the book details
-        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'> {/* Flex column layout, border, padding, rounded corners */}
-          {/* Display individual book details using the reusable BookDetail component */}
-          <BookDetail label="Id" value={book._id} /> {/* Show the book's unique ID */}
-          <BookDetail label="Title" value={book.title} /> {/* Show the book's title */}
-          <BookDetail label="Author" value={book.author} /> {/* Show the author's name */}
-          <BookDetail label="Publish Year" value={book.publishYear} /> {/* Show the publish year */}
-          <BookDetail label="Create Time" value={createdAtFormatted} /> {/* Show the book creation time in a formatted string */}
-          <BookDetail label="Last Update Time" value={updatedAtFormatted} /> {/* Show the book last update time in a formatted string */}
+        // Show book details when loading is complete and there is no error
+        <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
+          {/* Using the BookDetail component to display book details */}
+          <BookDetail label="ID" value={book._id || 'N/A'}/>
+          <BookDetail label="Title" value={book.title || 'N/A'}/>
+          <BookDetail label="Author" value={book.author || 'N/A'}/>
+          <BookDetail label="Publish Year" value={book.publishYear || 'N/A'}/>
+          <BookDetail label="Create Time" value={formattedCreatedAt}/>
+          <BookDetail label="Last Update Time" value={formattedUpdatedAt}/>
         </div>
       )}
     </div>

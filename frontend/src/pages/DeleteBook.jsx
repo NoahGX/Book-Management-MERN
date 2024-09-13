@@ -76,7 +76,7 @@ const DeleteBook = () => {
         <button
           className='p-4 bg-red-600 text-white m-8 w-full'
           onClick={handleDeleteBook}
-          {/* Disable button while process is ongoing to prevent multiple requests */}
+          // Disable button while process is ongoing to prevent multiple requests
           disabled={loading}>
           {loading ? 'Deleting...' : 'Yes, Delete'}
         </button>

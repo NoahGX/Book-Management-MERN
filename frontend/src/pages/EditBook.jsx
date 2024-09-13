@@ -32,7 +32,8 @@ const EditBook = () => {
   const [author, setAuthor] = useState('');
   // State variable to store the publish year
   const [publishYear, setPublishYear] = useState('');
-  // State variable to track loading status (true while fetching or saving data)
+  // State variable to track loading status
+  // Initially false, true when fetching data
   const [loading, setLoading] = useState(false);
   // useNavigate hook to navigate to another page
   const navigate = useNavigate();
