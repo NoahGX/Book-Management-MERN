@@ -20,10 +20,10 @@ const DeleteBook = () => {
         navigate('/');
       }).catch((error) => {
         setLoading(false);
-        // alert('An error happened. Please Chack console');
-        enqueueSnackbar('Error', { variant: 'error' });
+        const errorMessage = error.response?.data?.message || 'An error occurred while deleting the book.';
+        enqueueSnackbar(errorMessage, { variant: 'error' });
         console.log(error);
-      });
+      });      
   };
   
   return (
