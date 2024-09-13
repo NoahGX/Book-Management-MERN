@@ -15,7 +15,6 @@ const API_URL = 'http://localhost:3000';
 
 const DeleteBook = () => {
   // State to track the loading status.
-  // Initially false (not loading), true when deletion process is in progress
   const [loading, setLoading] = useState(false);
   // Hook to navigate programmatically, redirects the user after successful deletion
   const navigate = useNavigate();
@@ -43,7 +42,8 @@ const DeleteBook = () => {
         setLoading(false);
         // Show success notification
         enqueueSnackbar('Book Deleted Successfully.', { variant: 'success' });
-        navigate('/');  // Redirect the user to the home page
+        // Redirect the user to the home page
+        navigate('/');
       }).catch((error) => {
         // If an error occurs during the request:
         // Stop the loading spinner
@@ -70,17 +70,14 @@ const DeleteBook = () => {
 
       {/* Confirmation UI: Contains the confirmation text and delete button */}
       <div className='flex flex-col items-center border-2 border-sky-400 rounded-xl w-[600px] p-8 mx-auto'>
-        
         {/* Confirmation message asking the user if they're sure about deleting the book */}
         <h3 className='text-2xl'>Are You Sure?</h3>
-
         {/* Delete button, triggers the handleDeleteBook function on click */}
-        {/* Disable button while process is ongoing to prevent multiple requests */}
         <button
           className='p-4 bg-red-600 text-white m-8 w-full'
           onClick={handleDeleteBook}
-          disabled={loading}
-        >
+          {/* Disable button while process is ongoing to prevent multiple requests */}
+          disabled={loading}>
           {loading ? 'Deleting...' : 'Yes, Delete'}
         </button>
       </div>

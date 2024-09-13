@@ -1,30 +1,33 @@
 import React, { useEffect, useState, memo } from 'react';
-import axios from 'axios'; // Import axios to make HTTP requests
-import { Link } from 'react-router-dom'; // Import Link for client-side navigation
-import { MdOutlineAddBox } from 'react-icons/md'; // Import an icon from react-icons for UI display
-import BooksTable from '../components/home/BooksTable'; // Import BooksTable component for table display of books
-import BooksCard from '../components/home/BooksCard'; // Import BooksCard component for card display of books
-import Spinner from '../components/Spinner'; // Import Spinner component to show a loading indicator
+// Import axios to make HTTP requests
+import axios from 'axios';
+ // Import Link for client-side navigation
+import { Link } from 'react-router-dom';
+// Import an icon from react-icons for UI display
+import { MdOutlineAddBox } from 'react-icons/md';
+// Import BooksTable component for table display of books
+import BooksTable from '../components/home/BooksTable';
+// Import BooksCard component for card display of books
+import BooksCard from '../components/home/BooksCard';
+// Import Spinner component to show a loading indicator
+import Spinner from '../components/Spinner';
 
-// Environment variable for API URL (fallback to localhost if not set)
+// Define API URL from environment variables or localhost
 const API_URL = 'http://localhost:3000';
 
 // Reusable ToggleButton component for switching between table and card views
-// Props: onClick (callback), label (button text), active (boolean to set active state), and loading (to disable button during loading)
 const ToggleButton = ({ onClick, label, active, loading }) => (
   <button
-    disabled={loading} // Disable button during loading
+    // Disable button during loading
+    disabled={loading}
     className={`px-4 py-1 rounded-lg ${active ? 'bg-sky-600' : 'bg-sky-300 hover:bg-sky-600'}`} // Dynamic class for active/inactive state
-    onClick={onClick}
-  >
+    onClick={onClick}>
     {label}
   </button>
 );
 
-// Memoized BooksTable component to prevent unnecessary re-renders
+// Memoized BooksTable and BooksCard components to prevent unnecessary re-renders
 const MemoizedBooksTable = memo(({ books }) => <BooksTable books={books} />);
-
-// Memoized BooksCard component to prevent unnecessary re-renders
 const MemoizedBooksCard = memo(({ books }) => <BooksCard books={books} />);
 
 const Home = () => {
@@ -38,51 +41,60 @@ const Home = () => {
   const [showType, setShowType] = useState('table');
 
   // useEffect to fetch books data from the API when the component mounts
-  // Added cleanup to prevent updating state if the component is unmounted before the fetch completes
   useEffect(() => {
-    let isMounted = true; // To check if the component is still mounted
+    // Check if the component is still mounted
+    let isMounted = true;
 
     // Async function to fetch books from the API
     const fetchBooks = async () => {
-      setLoading(true); // Set loading to true before fetching data
-      setError(null);   // Clear previous errors
+      // Set loading to true and clear previous errors
+      setLoading(true);
+      setError(null);
+
       try {
-        const response = await axios.get(`${API_URL}/books`); // API call to fetch books
+        // API call to fetch books
+        const response = await axios.get(`${API_URL}/books`);
+        // Set books data if the component is still mounted
         if (isMounted) {
-          setBooks(response.data.data); // Set books data if the component is still mounted
+          setBooks(response.data.data);
         }
       } catch (error) {
         if (isMounted) {
-          setError('Failed to fetch books. Please try again later.'); // Set error message if the API request fails
+          // Set error message if the API request fails
+          setError('Failed to fetch books. Please try again later.');
         }
       } finally {
         if (isMounted) {
-          setLoading(false); // Turn off loading spinner after the fetch completes
+          // Turn off loading spinner after the fetch completes
+          setLoading(false);
         }
       }
     };
 
-    fetchBooks(); // Invoke the async function to fetch books on component mount
+    // Invoke the async function to fetch books on component mount
+    fetchBooks();
 
     // Cleanup function to prevent memory leaks by ensuring state is not updated after unmount
     return () => {
       isMounted = false; 
     };
-  }, []); // Empty dependency array to ensure this runs only once when the component mounts
+  }, []);  // Empty dependency array ensures this runs only once when component mounts
 
-  // Function to conditionally render content based on the current state (loading, error, showType)
+  // Function to conditionally render content based on the current state
   const renderContent = () => {
     if (error) {
-      return <div className="text-red-500">{error}</div>; // Display error message if the API call failed
+      // Display error message if the API call failed
+      return <div className="text-red-500">{error}</div>;
     }
     if (loading) {
-      return <Spinner />; // Show loading spinner while data is being fetched
+      // Show loading spinner while data is being fetched
+      return <Spinner />;
     }
-    // Conditionally render BooksTable or BooksCard based on the value of showType
+    // Conditionally render Table or Card based on the value of showType
     return showType === 'table' ? (
-      <MemoizedBooksTable books={books} /> // Render BooksTable in table view
+      <MemoizedBooksTable books={books}/>
     ) : (
-      <MemoizedBooksCard books={books} />  // Render BooksCard in card view
+      <MemoizedBooksCard books={books}/>
     );
   };
 
@@ -91,24 +103,27 @@ const Home = () => {
       {/* Buttons to toggle between table and card views */}
       <div className='flex justify-center items-center gap-x-4'>
         <ToggleButton 
-          onClick={() => setShowType('table')}  // Set showType to 'table' when this button is clicked
-          label="Table"                        // Label for the button
-          active={showType === 'table'}        // Set active state based on whether 'table' is currently selected
-          loading={loading}                    // Disable button during loading
+          // Set showType to 'table' when this button is clicked
+          onClick={() => setShowType('table')}
+          label="Table"
+          active={showType === 'table'}
+          loading={loading}
         />
         <ToggleButton 
-          onClick={() => setShowType('card')}   // Set showType to 'card' when this button is clicked
-          label="Card"                         // Label for the button
-          active={showType === 'card'}         // Set active state based on whether 'card' is currently selected
-          loading={loading}                    // Disable button during loading
+          // Set showType to 'card' when this button is clicked
+          onClick={() => setShowType('card')}
+          label="Card"
+          active={showType === 'card'}
+          loading={loading}
         />
       </div>
 
       {/* Header section with the title and add button */}
       <div className='flex justify-between items-center'>
-        <h1 className='text-3xl my-8'>Books List</h1>  {/* Page title */}
-        <Link to='/books/create'>                     {/* Link to the 'create book' page */}
-          <MdOutlineAddBox className='text-sky-800 text-4xl' />  {/* Icon for adding a new book */}
+        <h1 className='text-3xl my-8'>Books List</h1>
+        {/* Link to the 'create book' page */}
+        <Link to='/books/create'>
+          <MdOutlineAddBox className='text-sky-800 text-4xl' />
         </Link>
       </div>
 

@@ -21,8 +21,7 @@ const InputField = ({ label, value, onChange, type = 'text' }) => (
       type={type}  // Set input type (e.g., 'text', 'number')
       value={value}  // Bind the input value to the state variable
       onChange={onChange}  // Update the state when input changes
-      className='border-2 border-gray-500 px-4 py-2 w-full'
-    />
+      className='border-2 border-gray-500 px-4 py-2 w-full'/>
   </div>
 );
 
@@ -57,13 +56,14 @@ const CreateBook = () => {
     }
 
     // Create the data object with form values
-    const data = { title, author, publishYear };
     // Set loading to true to show the spinner
+    const data = { title, author, publishYear };
     setLoading(true);
 
     try {
       // Make POST request to create the new book
       await axios.post(`${API_URL}/books`, data);
+      // Display success notification
       enqueueSnackbar('Book Created Successfully.', { variant: 'success' });
       // After success, reset form fields and navigate to the home page
       setTitle('');
@@ -72,9 +72,10 @@ const CreateBook = () => {
       navigate('/');
     } catch (error) {
       // Error handling: Display error message if the request fails
-      // Log error to the console for debugging
       const errorMessage = error.response?.data?.message || 'Error creating the book';
+      // Display error noticiation
       enqueueSnackbar(errorMessage, { variant: 'error' });
+      // Log error to the console for debugging
       console.log(error);
     } finally {
       // Set loading to false to hide the spinner
@@ -95,18 +96,15 @@ const CreateBook = () => {
 
       {/* Form container with styling using Tailwind CSS */}
       <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-
         {/* Input fields for book title, author, and publish year using reusable InputField component */}
         <InputField label="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
         <InputField label="Author" value={author} onChange={(e) => setAuthor(e.target.value)}/>
         <InputField label="Publish Year" value={publishYear} onChange={(e) => setPublishYear(e.target.value)} type="number"/>
-
         {/* Save button, disabled when loading to prevent multiple requests */}
         <button
           className='p-2 bg-sky-300 m-8'
           onClick={handleSaveBook}
-          disabled={loading}
-        >
+          disabled={loading}>
           {loading ? 'Saving...' : 'Save'}
         </button>
       </div>

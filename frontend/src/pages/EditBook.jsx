@@ -21,8 +21,7 @@ const InputField = ({ label, value, onChange, type = 'text' }) => (
       type={type}  // Set input type (e.g., 'text', 'number')
       value={value}  // Bind the input value to the state variable
       onChange={onChange}  // Update the state when the user types
-      className='border-2 border-gray-500 px-4 py-2 w-full'
-    />
+      className='border-2 border-gray-500 px-4 py-2 w-full'/>
   </div>
 );
 
@@ -31,7 +30,7 @@ const EditBook = () => {
   const [title, setTitle] = useState('');
   // State variable to store the author name
   const [author, setAuthor] = useState('');
-  // State variableto store the publish year
+  // State variable to store the publish year
   const [publishYear, setPublishYear] = useState('');
   // State variable to track loading status (true while fetching or saving data)
   const [loading, setLoading] = useState(false);
@@ -52,8 +51,8 @@ const EditBook = () => {
       
       try {
         // Make GET request to fetch book details from the API using the book's id
-        const response = await axios.get(`${API_URL}/books/${id}`);
         // Update the state variables with the fetched data
+        const response = await axios.get(`${API_URL}/books/${id}`);
         setTitle(response.data.title);
         setAuthor(response.data.author);
         setPublishYear(response.data.publishYear);
@@ -73,27 +72,25 @@ const EditBook = () => {
     fetchBook();
   }, [id]);
 
-  // Function to handle form submission when the user saves the edited book
+  // Function to handle basic validation of form submission
   const handleEditBook = () => {
-    // Basic validation: Check if all fields are filled out
+    // Check if all fields are filled out
+    // Show warning notification if any field is empty, exit the function if validation fails
     if (!title || !author || !publishYear) {
-      // Show warning notification if any field is empty
-      // Exit the function if validation fails
       enqueueSnackbar('All fields are required', { variant: 'warning' });
       return;
     }
 
     // Validate that `publishYear` is a valid positive number
+    // Show warning if publish year is invalid, exit the function if validation fails
     if (isNaN(publishYear) || publishYear < 0) {
-      // Show warning if publish year is invalid
-      // Exit the function if validation fails
       enqueueSnackbar('Publish Year must be a valid positive number', { variant: 'warning' });
       return;
     }
 
     // Create a data object with the updated book details
-    const data = { title, author, publishYear };
     // Set loading to true to indicate the form is being submitted
+    const data = { title, author, publishYear };
     setLoading(true);
 
     // Make PUT request to update the book details on the server
@@ -119,26 +116,23 @@ const EditBook = () => {
   return (
     <div className='p-4'>
       {/* BackButton component allows user to navigate back to the previous page */}
-      <BackButton />
+      <BackButton/>
       
       {/* Page title */}
       <h1 className='text-3xl my-4'>Edit Book</h1>
       
-      {/* Conditional rendering: Show spinner while loading, otherwise show the form */}
-      {loading ? <Spinner /> : (
+      {/* Show spinner while loading, otherwise show the form */}
+      {loading ? <Spinner/> : (
         <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-          
-          {/* Input fields for title, author, and publish year */}
-          <InputField label="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-          <InputField label="Author" value={author} onChange={(e) => setAuthor(e.target.value)} />
-          <InputField label="Publish Year" value={publishYear} onChange={(e) => setPublishYear(e.target.value)} type="number" />
-          
+        {/* Input fields for book title, author, and publish year using reusable InputField component */}          
+          <InputField label="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
+          <InputField label="Author" value={author} onChange={(e) => setAuthor(e.target.value)}/>
+          <InputField label="Publish Year" value={publishYear} onChange={(e) => setPublishYear(e.target.value)} type="number"/>
           {/* Save button, disabled when loading to prevent multiple requests */}
           <button
             className='p-2 bg-sky-300 m-8'
             onClick={handleEditBook}
-            disabled={loading}
-          >
+            disabled={loading}>
             {loading ? 'Saving...' : 'Save'}
           </button>
         </div>
