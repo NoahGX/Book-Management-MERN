@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useMemo } from 'react'; // Import React, useEffect for side effects, useState for state management, and useMemo for memoizing values
-import axios from 'axios'; // Import axios to make HTTP requests
-import { useParams } from 'react-router-dom'; // useParams allows us to retrieve dynamic URL parameters (e.g., book id)
-import BackButton from '../components/BackButton'; // BackButton component to navigate back to the previous page
-import Spinner from '../components/Spinner'; // Spinner component to indicate loading state
+import React, { useEffect, useState, useMemo } from 'react';
+import { useParams } from 'react-router-dom'; // useParams allows us to retrieve dynamic URL parameters like book id
+import BackButton from '../components/BackButton'; // Import the BackButton component to navigate to the previous page
+import Spinner from '../components/Spinner'; // Import Spinner component to show a loading indicator
 
 // Use environment variable for the API URL, with fallback to localhost for development
 const API_URL = 'http://localhost:3000';

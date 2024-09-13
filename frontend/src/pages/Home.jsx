@@ -1,10 +1,10 @@
 import React, { useEffect, useState, memo } from 'react';
-import axios from 'axios';
-import Spinner from '../components/Spinner';
-import { Link } from 'react-router-dom';
-import { MdOutlineAddBox } from 'react-icons/md';
-import BooksTable from '../components/home/BooksTable';
-import BooksCard from '../components/home/BooksCard';
+import axios from 'axios'; // Import axios to make HTTP requests
+import { Link } from 'react-router-dom'; // Import Link for client-side navigation
+import { MdOutlineAddBox } from 'react-icons/md'; // Import an icon from react-icons for UI display
+import BooksTable from '../components/home/BooksTable'; // Import BooksTable component for table display of books
+import BooksCard from '../components/home/BooksCard'; // Import BooksCard component for card display of books
+import Spinner from '../components/Spinner'; // Import Spinner component to show a loading indicator
 
 // Environment variable for API URL (fallback to localhost if not set)
 const API_URL = 'http://localhost:3000';
