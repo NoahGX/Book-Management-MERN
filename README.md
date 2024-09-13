@@ -39,7 +39,6 @@ This project is a simple Book Management System built using `Node.js` with `Expr
    ```bash
    npm run dev
    ```
-
    The backend server will be running at `http://localhost:5000`.
 
 ### Frontend Setup:
@@ -54,14 +53,12 @@ This project is a simple Book Management System built using `Node.js` with `Expr
      ```
      REACT_APP_API_URL=http://localhost:5000
      ```
-
    This points the frontend to the backend API running on `http://localhost:5000`.
 
 3. **Start the frontend application**:
    ```bash
    npm run dev
    ```
-
    The frontend will now be running at `http://localhost:3000`, and it will interact with the backend at `http://localhost:5000`.
 
 ## Prerequisites
@@ -71,11 +68,10 @@ This project is a simple Book Management System built using `Node.js` with `Expr
 - **RESTful API**: The backend server exposes RESTful API endpoints for frontend interaction.
 
 ## Input
-- **Create/Edit a Book**:
+- **Create/Edit Book**:
   - **Title**: A required string representing the title of the book.
   - **Author**: A required string representing the author's name.
   - **Publish Year**: A required number representing the year the book was published.
-
 - **Validation**:
   - All fields must be filled before submission.
   - The publish year must be a positive number.
