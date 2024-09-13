@@ -3,6 +3,10 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
+import { useMemo } from 'react'; // Import useMemo
+
+const createdAtFormatted = useMemo(() => new Date(book.createdAt).toString(), [book.createdAt]);
+const updatedAtFormatted = useMemo(() => new Date(book.updatedAt).toString(), [book.updatedAt]);
 
 const ShowBook = () => {
   const [book, setBook] = useState({});
