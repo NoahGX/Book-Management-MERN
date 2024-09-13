@@ -126,4 +126,4 @@ const EditBook = () => {
   );
 };
 
-export default EditBook; // Export the EditBook component for use in other parts of the app
+export default EditBook;

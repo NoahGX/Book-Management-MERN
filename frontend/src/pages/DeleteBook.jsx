@@ -77,4 +77,4 @@ const DeleteBook = () => {
   );
 };
 
-export default DeleteBook; // Export the DeleteBook component so it can be used elsewhere in the application
+export default DeleteBook;

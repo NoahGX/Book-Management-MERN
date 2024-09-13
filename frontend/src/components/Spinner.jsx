@@ -1,9 +1,19 @@
-import React from 'react'
+import React from 'react';
 
-const Spinner = () => {
+// Spinner functional component
+const Spinner = ({
+  size = 16,  // Size prop defines the width and height
+  color = 'sky-600',  // Color prop defines the background color
+  margin = 8,  // Margin prop defines the margin around the spinner
+  animation = 'animate-ping' // Animation prop defines the animation class
+}) => {
   return (
-    <div className='animate-ping w-16 h-16 m-8 rounded-full bg-sky-600'></div>
-  )
-}
+    <div // Use dynamic class names based on passed props for flexible styling
+      className={`${animation} w-${size} h-${size} m-${margin} rounded-full bg-${color}`}
+      role="status"  // ARIA role to improve accessibility, identifies the element as a status indicator
+      aria-label="Loading"  // Provides an accessible label for screen readers
+    ></div>
+  );
+};
 
-export default Spinner
+export default Spinner;
