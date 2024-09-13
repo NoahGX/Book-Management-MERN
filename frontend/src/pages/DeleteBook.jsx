@@ -13,14 +13,12 @@ const DeleteBook = () => {
 
   const handleDeleteBook = () => {
     setLoading(true);
-    axios
-      .delete(`http://localhost:3000/books/${id}`)
+    axios.delete(`http://localhost:3000/books/${id}`)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Deleted Successfully.', { variant: 'success' });
         navigate('/');
-      })
-      .catch((error) => {
+      }).catch((error) => {
         setLoading(false);
         // alert('An error happened. Please Chack console');
         enqueueSnackbar('Error', { variant: 'error' });
@@ -30,7 +28,7 @@ const DeleteBook = () => {
   
   return (
     <div className='p-4'>
-      <BackButton />
+      <BackButton/>
       <h1 className='text-3xl my-4'>Delete Book</h1>
       {loading ? <Spinner /> : ''}
       <div className='flex flex-col items-center border-2 border-sky-400 rounded-xl w-[600px] p-8 mx-auto'>
