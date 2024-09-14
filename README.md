@@ -1,4 +1,4 @@
-# Simple Book Management (MERN)
+# Book Management System (MERN)
 
 ## Overview
 This project is a simple Book Management System built using `Node.js` with `Express`, `MongoDB`, and `Mongoose` for the backend to manage a RESTful API and interact with the database, while using `React.js` for the frontend to communicate with this API using `Axios`. This simple application allows users to create, read, update, and delete (CRUD) books that are stored in a MongoDB database.
